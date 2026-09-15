@@ -1,0 +1,80 @@
+<svg width="640" height="560" viewBox="0 0 640 560" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#13224f"/>
+      <stop offset="1" stop-color="#0a1338"/>
+    </linearGradient>
+    <linearGradient id="bldg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#eef4ff"/>
+      <stop offset="1" stop-color="#d3e2ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="560" fill="url(#sky)"/>
+
+  <!-- signal arcs from tower (left) -->
+  <g stroke="#5a8bff" stroke-width="3" fill="none" opacity="0.55">
+    <path d="M40 120 q40 -30 80 0"/>
+    <path d="M30 140 q55 -42 110 0"/>
+    <path d="M20 162 q70 -55 140 0"/>
+  </g>
+  <line x1="70" y1="230" x2="70" y2="130" stroke="#8ab2ff" stroke-width="6"/>
+  <line x1="55" y1="230" x2="85" y2="230" stroke="#8ab2ff" stroke-width="6"/>
+  <line x1="70" y1="130" x2="50" y2="110" stroke="#8ab2ff" stroke-width="6"/>
+  <line x1="70" y1="130" x2="90" y2="110" stroke="#8ab2ff" stroke-width="6"/>
+
+  <!-- building -->
+  <rect x="220" y="120" width="300" height="400" rx="10" fill="url(#bldg)"/>
+  <g fill="#9db8ef">
+    <!-- windows grid -->
+    <rect x="245" y="150" width="34" height="34" rx="3"/>
+    <rect x="295" y="150" width="34" height="34" rx="3"/>
+    <rect x="345" y="150" width="34" height="34" rx="3"/>
+    <rect x="395" y="150" width="34" height="34" rx="3"/>
+    <rect x="445" y="150" width="34" height="34" rx="3"/>
+
+    <rect x="245" y="200" width="34" height="34" rx="3"/>
+    <rect x="295" y="200" width="34" height="34" rx="3"/>
+    <rect x="345" y="200" width="34" height="34" rx="3"/>
+    <rect x="395" y="200" width="34" height="34" rx="3"/>
+    <rect x="445" y="200" width="34" height="34" rx="3"/>
+
+    <rect x="245" y="250" width="34" height="34" rx="3"/>
+    <rect x="295" y="250" width="34" height="34" rx="3"/>
+    <rect x="345" y="250" width="34" height="34" rx="3" fill="#ff5a1f" fill-opacity="0.85"/>
+    <rect x="395" y="250" width="34" height="34" rx="3"/>
+    <rect x="445" y="250" width="34" height="34" rx="3"/>
+
+    <rect x="245" y="300" width="34" height="34" rx="3"/>
+    <rect x="295" y="300" width="34" height="34" rx="3"/>
+    <rect x="345" y="300" width="34" height="34" rx="3"/>
+    <rect x="395" y="300" width="34" height="34" rx="3"/>
+    <rect x="445" y="300" width="34" height="34" rx="3"/>
+
+    <rect x="245" y="350" width="34" height="34" rx="3"/>
+    <rect x="295" y="350" width="34" height="34" rx="3"/>
+    <rect x="345" y="350" width="34" height="34" rx="3"/>
+    <rect x="395" y="350" width="34" height="34" rx="3"/>
+    <rect x="445" y="350" width="34" height="34" rx="3"/>
+  </g>
+
+  <!-- outdoor antenna on rooftop -->
+  <line x1="270" y1="120" x2="270" y2="70" stroke="#1f47dd" stroke-width="6"/>
+  <line x1="255" y1="80" x2="285" y2="80" stroke="#1f47dd" stroke-width="6"/>
+  <line x1="270" y1="70" x2="255" y2="55" stroke="#1f47dd" stroke-width="6"/>
+  <line x1="270" y1="70" x2="285" y2="55" stroke="#1f47dd" stroke-width="6"/>
+
+  <!-- cable down -->
+  <path d="M270 120 L270 250 L349 250" stroke="#1f47dd" stroke-width="3" stroke-dasharray="2 6" fill="none"/>
+
+  <!-- amplifier box marker (orange window already indicates amplifier room) -->
+  <circle cx="362" cy="267" r="4" fill="#ffffff"/>
+
+  <!-- indoor signal waves from amplifier room -->
+  <g stroke="#ffffff" stroke-width="2.5" fill="none" opacity="0.85">
+    <path d="M395 267 q18 -14 36 0"/>
+    <path d="M395 267 q18 14 36 0"/>
+  </g>
+
+  <!-- ground -->
+  <rect x="0" y="520" width="640" height="40" fill="#060b24"/>
+</svg>

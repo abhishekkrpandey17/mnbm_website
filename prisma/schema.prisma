@@ -1,0 +1,237 @@
+// Prisma schema for the Mobile Network Booster Mumbai platform.
+// Structured so lead management ships now, and Products/Services/Locations/
+// FAQs/Resources/Testimonials can become fully admin-editable CMS content later.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------------------
+// Admin / Auth
+// ---------------------------------------------------------------------------
+
+enum AdminRole {
+  SUPER_ADMIN
+  ADMIN
+}
+
+model AdminUser {
+  id           String    @id @default(cuid())
+  name         String
+  email        String    @unique
+  passwordHash String
+  role         AdminRole @default(ADMIN)
+  isActive     Boolean   @default(true)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  lastLoginAt  DateTime?
+
+  sessions      AdminSession[]
+  assignedLeads Lead[]         @relation("AssignedLeads")
+  leadNotes     LeadNote[]
+  loginAttempts LoginAttempt[]
+
+  @@index([email])
+}
+
+model AdminSession {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  adminId   String
+  admin     AdminUser @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  userAgent String?
+  ipAddress String?
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([adminId])
+  @@index([expiresAt])
+}
+
+model LoginAttempt {
+  id        String    @id @default(cuid())
+  email     String
+  ipAddress String
+  success   Boolean
+  adminId   String?
+  admin     AdminUser? @relation(fields: [adminId], references: [id], onDelete: SetNull)
+  createdAt DateTime  @default(now())
+
+  @@index([email, createdAt])
+  @@index([ipAddress, createdAt])
+}
+
+// ---------------------------------------------------------------------------
+// Leads / Enquiries
+// ---------------------------------------------------------------------------
+
+enum RequirementType {
+  HOME
+  OFFICE
+  FACTORY
+  WAREHOUSE
+  HOTEL
+  HOSPITAL
+  COMMERCIAL_BUILDING
+  BASEMENT
+  OTHER
+}
+
+enum NetworkProvider {
+  JIO
+  AIRTEL
+  VI
+  BSNL
+  OTHER
+}
+
+enum PropertyType {
+  RESIDENTIAL
+  OFFICE
+  RETAIL
+  INDUSTRIAL
+  HOSPITALITY
+  HEALTHCARE
+  INSTITUTIONAL
+  OTHER
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  SITE_VISIT
+  QUOTATION_SENT
+  WON
+  LOST
+}
+
+enum LeadSource {
+  WEBSITE_CONTACT_FORM
+  WEBSITE_HERO_FORM
+  WEBSITE_LOCATION_PAGE
+  WEBSITE_SERVICE_PAGE
+  PHONE_CALL
+  WHATSAPP
+  REFERRAL
+  OTHER
+}
+
+model Lead {
+  id              String            @id @default(cuid())
+  enquiryCode     String            @unique
+  name            String
+  email           String?
+  phone           String
+  company         String?
+  city            String
+  area            String?
+  requirementType RequirementType   @default(OTHER)
+  networkProvider NetworkProvider?
+  propertyType    PropertyType?
+  propertySize    String?
+  message         String?
+  source          LeadSource        @default(WEBSITE_CONTACT_FORM)
+  status          LeadStatus        @default(NEW)
+  assignedToId    String?
+  assignedTo      AdminUser?        @relation("AssignedLeads", fields: [assignedToId], references: [id], onDelete: SetNull)
+  notes           LeadNote[]
+  events          LeadEvent[]
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  @@index([createdAt])
+  @@index([status])
+  @@index([phone])
+  @@index([email])
+  @@index([city])
+  @@index([requirementType])
+}
+
+model LeadNote {
+  id        String   @id @default(cuid())
+  leadId    String
+  lead      Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  authorId  String?
+  author    AdminUser? @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  body      String
+  createdAt DateTime @default(now())
+
+  @@index([leadId])
+}
+
+// Timeline entries (status changes, assignment changes, etc.) for the lead detail view.
+model LeadEvent {
+  id        String   @id @default(cuid())
+  leadId    String
+  lead      Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  type      String
+  detail    String?
+  createdAt DateTime @default(now())
+
+  @@index([leadId])
+}
+
+// ---------------------------------------------------------------------------
+// Contact messages (general enquiries, separate from structured leads)
+// ---------------------------------------------------------------------------
+
+enum ContactStatus {
+  NEW
+  READ
+  REPLIED
+  ARCHIVED
+}
+
+model ContactMessage {
+  id        String        @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String?
+  message   String
+  status    ContactStatus @default(NEW)
+  createdAt DateTime      @default(now())
+
+  @@index([createdAt])
+  @@index([status])
+}
+
+// ---------------------------------------------------------------------------
+// Future CMS-style content (schema in place now, admin UI to follow)
+// ---------------------------------------------------------------------------
+
+model Product {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  name         String
+  summary      String
+  description  String
+  imageUrl     String?
+  bands        String[]
+  networks     String[]
+  coverageArea String?
+  propertyType String?
+  isPublished  Boolean  @default(true)
+  sortOrder    Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([isPublished])
+}
+
+model Testimonial {
+  id          String   @id @default(cuid())
+  clientName  String
+  clientRole  String?
+  quote       String
+  isPublished Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  @@index([isPublished])
+}

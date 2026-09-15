@@ -1,0 +1,20 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0a1338"/>
+      <stop offset="1" stop-color="#1c328c"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="1060" cy="90" r="220" fill="#3164f7" opacity="0.25"/>
+  <circle cx="90" cy="560" r="160" fill="#ff5a1f" opacity="0.12"/>
+
+  <g transform="translate(90,90)">
+    <rect width="72" height="72" rx="18" fill="#3164f7"/>
+    <path d="M20 52 L20 36 M36 52 L36 26 M52 52 L52 18" stroke="white" stroke-width="7" stroke-linecap="round"/>
+  </g>
+
+  <text x="90" y="260" font-family="Arial, sans-serif" font-size="56" font-weight="800" fill="white">Mobile Network Booster</text>
+  <text x="90" y="325" font-family="Arial, sans-serif" font-size="56" font-weight="800" fill="white">Installation in Mumbai</text>
+  <text x="90" y="385" font-family="Arial, sans-serif" font-size="26" fill="#b8d1ff">Homes · Offices · Commercial · Industrial</text>
+</svg>
